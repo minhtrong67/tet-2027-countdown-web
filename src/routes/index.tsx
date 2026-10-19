@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
 });
 
 function TetCountdownPage() {
-  const [countdown, setCountdown] = useState(() => getTetCountdown(0));
+  const [countdown, setCountdown] = useState<ReturnType<typeof getTetCountdown> | null>(null);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ function TetCountdownPage() {
               {TIME_UNITS.map(({ key, label }) => (
                 <div className="tet-unit" key={key}>
                   <span className="tet-unit-number" aria-hidden="true">
-                    {countdown.isComplete ? "00" : String(countdown[key]).padStart(2, "0")}
+                    {countdown === null || countdown.isComplete ? "00" : String(countdown[key]).padStart(2, "0")}
                   </span>
                   <span className="tet-unit-label">{label}</span>
                 </div>
@@ -117,7 +117,7 @@ function TetCountdownPage() {
 
             <p className="tet-status" aria-live="off">
               <span className="tet-status-dot" />
-              {countdown.isComplete ? "Chúc mừng năm mới Đinh Mùi!" : "Đếm từng giây, mong ngày đoàn viên"}
+              {countdown?.isComplete ? "Chúc mừng năm mới Đinh Mùi!" : "Đếm từng giây, mong ngày đoàn viên"}
             </p>
 
             <Button className="tet-share" size="lg" onClick={shareCountdown}>
